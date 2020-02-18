@@ -1,0 +1,53 @@
+Gherman Maria Irina @ 324 CB
+
+------------------------------------Tema 2-------------------------------------
+
+    Am stocat in .data niste variabile ajutatoare pentru task 1-2-3 (revient,
+string-ul de codificat in imagine, literele din alfabetul morse) pentru ca pe
+forum ni s-a raspuns ca putem.
+
+1. bruteforce_singlebyte_xor
+
+    Intr-un loop pentru cautarea cheii (ecx = 0:255), avem un loop care face
+xor pe intreaga matrice, cautand 'r'. Cand gaseste 'r', incrementeaza esi, 
+iteratorul pentru mesaj, pentru a cauta 'e' ([revient + 1]) si verifica din
+nou. Daca a ajuns la finalul mesajului, xoreaza toata matricea in-place pentru
+a face task 2 mai usor. Dupa aceea, returneaza cheia, linia si un rezultat
+intermediar, linia * width * 4 (offset-ul)
+
+2. xor_encode
+
+    Ne calculam cheia noua, copiem mesajul in matrice (in memorie) si facem
+xor pe toata matricea cu cheia noua.
+
+3. morse
+    
+    Din pacate e mult cod copy-paste, deoarece assembly n-are structuri de
+decizie tip case switch. 
+    Prima oara cautam in mesajul de codificat litera si punem in eax pointerul
+la codificarea corespunzatoare. Dupa aceea, mutam codificarea in memorie pentru
+a ne putea folosi de functia "print_image" deja definita.
+
+4. LSB_encode
+
+    Avem din nou for in for. Primul loop initializeaza registrii de care ne 
+folosim si muta prima litera din cuvantul curent in al. Al doilea loop parcurge
+bit cu bit litera respectiva, seteaza eax-ul 0 sau 1 (LSB-ul literei din mesaj)
+si il muta unde trebuie.
+
+5. LSB_decode
+
+    Logica asemanatoare ca la task 4. Initial cautam LSB-ul octetului curent si
+il punem in al, shiftand la stanga pentru a face loc bitului urmator. Repetam 
+asta de 8 ori pentru a decodifica un octet, il printam si o luam de la capat.
+
+6. blur
+
+    Printam prima oara prima linie si primul octet de pe a doua linie (pentru 
+ca raman neschimbate). Dupa aceea, initializam registrii cu diferite valori
+in functie de width si height pt a ne ajuta la identificarea cazurilor.
+    In continuare avem un loop care merge pana la ultimul octet din penultima
+linie (ultima valoare care se schimba). In loop avem si un caz pentru a printa
+marginea imaginii (ultimul octet de la linia x si primul octet de la 
+linia x + 1).
+    In final, printam ultimele valori ramase (ultima linie).
